@@ -1,3 +1,7 @@
+import java.util.Arrays;
+import java.util.List;
+
+
 public class QueenBoard{
   private int[][]board;
 
@@ -12,8 +16,14 @@ public class QueenBoard{
     }
   }
 
-  //private boolean addQueen(int r, int c){  }
-//  private boolean removeQueen(int r, int c){ }
+  private boolean addQueen(int r, int c){
+    board[r][c]=-1;
+    return true;
+  }
+  private boolean removeQueen(int r, int c){
+    board[r][c]=0;
+    return false;
+  }
 
   /**
   *@return The output string formatted as follows:
@@ -58,7 +68,26 @@ public class QueenBoard{
   *@throws IllegalStateException when the board starts with any non-zero value
 
   */
-  //public boolean solve(){}
+  public boolean solve(){
+    return helper(board,0);
+  }
+
+  public boolean contains(int[] list, int n){
+    for (int i=0;i<list.length;i++){
+      if (list[i]==n)return true;
+    }
+    return false;
+  }
+
+  public boolean helper(int[][] board, int row){
+    if (contains(board[board.length-1],-1))return true;
+    else if (contains(board[board.length-1],-1)==false && row == board.length)return false;
+    for (int columns=0;columns<board.length;columns++){
+      if (board[row][columns]==0){
+        addQueen(row,columns);
+      }
+    }
+  }
 
   /**
   *@return the number of solutions found, and leaves the board filled with only 0's
@@ -69,6 +98,8 @@ public class QueenBoard{
 
   public static void main(String[] args){
     QueenBoard chess = new QueenBoard(5);
+    chess.addQueen(chess.board.length-1,0);
+    System.out.println(chess.solve());
     System.out.println(chess);
   }
 
