@@ -25,7 +25,7 @@ public class QueenBoard{
         if (r+i<board.length){
           board[r+i][c+i]++;
         }
-        if (r-i<board.length){
+        if (r-i>=0){
           board[r-i][c+i]++;
         }
       }
@@ -41,7 +41,7 @@ public class QueenBoard{
         if (r+i<board.length){
           board[r+i][c+i]--;
         }
-        if (r-i<board.length){
+        if (r-i>=0){
           board[r-i][c+i]--;
         }
       }
@@ -106,25 +106,36 @@ public class QueenBoard{
 
   */
   public boolean solve(){
-    return helper(board,0);
+    return helper(board,0,0);
   }
 
-  public boolean contains(int[] list, int n){
-    for (int i=0;i<list.length;i++){
-      if (list[i]==n)return true;
+  public boolean solved(){
+    for (int i=0;i<board.length;i++){
+      if (board[board.length-1][1]==-1)return true;
     }
     return false;
   }
 
-  public boolean helper(int[][] board, int row){
-    if (contains(board[board.length-1],-1))return true;
-    else if (contains(board[board.length-1],-1)==false && row == board.length)return false;
-    for (int columns=0;columns<board.length;columns++){
-      if (board[row][columns]==0){
-        addQueen(row,columns);
+  public boolean helper(int[][] board, int column, int prevRow){
+    if (solved())return true;
+    else if (solved()==false && column==board.length)return false;
+    for (int rows=0;rows<board.length;rows++){
+      if (board[rows][column]==0){
+        addQueen(rows,column);
+        return helper(board, column+1, rows);
       }
     }
-    return true;
+    removeQueen(prevRow,column-1);
+    return helper(board,column,findRow(column-2));
+  }
+
+  public int findRow(int column){
+    for (int i=0;i<board.length;i++){
+      if (board[i][column]==-1){
+        return i;
+      }
+    }
+    return 0;
   }
 
   /**
@@ -139,12 +150,16 @@ public class QueenBoard{
     /*
     for (int i=0;i<chess.board.length;i++){
       chess.addQueen(i,0);
-    }*/
+    }
     chess.addQueen(2,2);
-    //System.out.println(chess.solve());
+    System.out.println(chess.solve());
     System.out.println(chess.toStringDebug());
+    System.out.println(chess);
     chess.removeQueen(2,2);
     System.out.println(chess.toStringDebug());
+    */
+    System.out.println(chess.solve());
+    System.out.println(chess);
   }
 
 
