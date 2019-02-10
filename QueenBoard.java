@@ -111,7 +111,7 @@ public class QueenBoard{
 
   public boolean solved(){
     for (int i=0;i<board.length;i++){
-      if (board[board.length-1][1]==-1)return true;
+      if (board[i][board.length-1]==-1)return true;
     }
     return false;
   }
