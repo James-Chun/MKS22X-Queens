@@ -18,6 +18,18 @@ public class QueenBoard{
 
   private boolean addQueen(int r, int c){
     board[r][c]=-1;
+
+    for (int i=1;i<board.length;i++){
+      if (i+c<board.length){
+        board[r][c+i]++;
+        if (r+i<board.length){
+          board[r+i][c+i]++;
+        }
+        if (r-i<board.length){
+          board[r-i][c+i]++;
+        }
+      }
+    }
     return true;
   }
   private boolean removeQueen(int r, int c){
@@ -58,6 +70,19 @@ public class QueenBoard{
     return visual;
   }
 
+  public String toStringDebug(){
+    String visual = "";
+    for (int row=0;row<board.length;row++){
+      for (int column=0;column<board[row].length;column++){
+
+        visual = visual + board[row][column] + " ";
+
+
+      }
+      visual = visual +"\n";
+    }
+    return visual;
+  }
 
 
   /**
@@ -87,6 +112,7 @@ public class QueenBoard{
         addQueen(row,columns);
       }
     }
+    return true;
   }
 
   /**
@@ -98,9 +124,13 @@ public class QueenBoard{
 
   public static void main(String[] args){
     QueenBoard chess = new QueenBoard(5);
-    chess.addQueen(chess.board.length-1,0);
-    System.out.println(chess.solve());
-    System.out.println(chess);
+    /*
+    for (int i=0;i<chess.board.length;i++){
+      chess.addQueen(i,0);
+    }*/
+    chess.addQueen(2,2);
+    //System.out.println(chess.solve());
+    System.out.println(chess.toStringDebug());
   }
 
 
