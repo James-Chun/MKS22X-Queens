@@ -32,9 +32,21 @@ public class QueenBoard{
     }
     return true;
   }
+
   private boolean removeQueen(int r, int c){
     board[r][c]=0;
-    return false;
+    for (int i=1;i<board.length;i++){
+      if (i+c<board.length){
+        board[r][c+i]--;
+        if (r+i<board.length){
+          board[r+i][c+i]--;
+        }
+        if (r-i<board.length){
+          board[r-i][c+i]--;
+        }
+      }
+    }
+    return true;
   }
 
   /**
@@ -130,6 +142,8 @@ public class QueenBoard{
     }*/
     chess.addQueen(2,2);
     //System.out.println(chess.solve());
+    System.out.println(chess.toStringDebug());
+    chess.removeQueen(2,2);
     System.out.println(chess.toStringDebug());
   }
 
