@@ -17,36 +17,41 @@ public class QueenBoard{
   }
 
   private boolean addQueen(int r, int c){
-    board[r][c]=-1;
-
-    for (int i=1;i<board.length;i++){
-      if (i+c<board.length){
-        board[r][c+i]++;
-        if (r+i<board.length){
-          board[r+i][c+i]++;
-        }
-        if (r-i>=0){
-          board[r-i][c+i]++;
+    if (board[r][c]==0){
+      board[r][c]=-1;
+      for (int i=1;i<board.length;i++){
+        if (i+c<board.length){
+          board[r][c+i]++;
+          if (r+i<board.length){
+            board[r+i][c+i]++;
+          }
+          if (r-i>=0){
+            board[r-i][c+i]++;
+          }
         }
       }
+      return true;
     }
-    return true;
+    return false;
   }
 
   private boolean removeQueen(int r, int c){
-    board[r][c]=0;
-    for (int i=1;i<board.length;i++){
-      if (i+c<board.length){
-        board[r][c+i]--;
-        if (r+i<board.length){
-          board[r+i][c+i]--;
-        }
-        if (r-i>=0){
-          board[r-i][c+i]--;
+    if (board[r][c]==-1){
+      board[r][c]=0;
+      for (int i=1;i<board.length;i++){
+        if (i+c<board.length){
+          board[r][c+i]--;
+          if (r+i<board.length){
+            board[r+i][c+i]--;
+          }
+          if (r-i>=0){
+            board[r-i][c+i]--;
+          }
         }
       }
+      return true;
     }
-    return true;
+    return false;
   }
 
   /**
@@ -87,7 +92,7 @@ public class QueenBoard{
     for (int row=0;row<board.length;row++){
       for (int column=0;column<board[row].length;column++){
 
-        visual = visual + board[row][column] + " ";
+        visual = visual + board[row][column] + "  ";
 
 
       }
@@ -106,7 +111,7 @@ public class QueenBoard{
 
   */
   public boolean solve(){
-    return helper(board,0,0);
+    return helper(0);
   }
 
   public boolean solved(){
@@ -116,26 +121,17 @@ public class QueenBoard{
     return false;
   }
 
-  public boolean helper(int[][] board, int column, int prevRow){
-    if (solved())return true;
+  public boolean helper( int column){
+    if (column>board.length-1)return true;
     else if (solved()==false && column==board.length)return false;
     for (int rows=0;rows<board.length;rows++){
-      if (board[rows][column]==0){
-        addQueen(rows,column);
-        return helper(board, column+1, rows);
+      if (addQueen(rows,column) && helper(column+1)){
+        return true;
       }
-    }
-    removeQueen(prevRow,column-1);
-    return helper(board,column,findRow(column-2));
-  }
 
-  public int findRow(int column){
-    for (int i=0;i<board.length;i++){
-      if (board[i][column]==-1){
-        return i;
-      }
+      removeQueen(rows,column);
     }
-    return 0;
+    return false;
   }
 
   /**
@@ -146,7 +142,7 @@ public class QueenBoard{
 
 
   public static void main(String[] args){
-    QueenBoard chess = new QueenBoard(5);
+    QueenBoard chess = new QueenBoard(Integer.parseInt(args[0]));
     /*
     for (int i=0;i<chess.board.length;i++){
       chess.addQueen(i,0);
@@ -159,7 +155,11 @@ public class QueenBoard{
     System.out.println(chess.toStringDebug());
     */
     System.out.println(chess.solve());
+
     System.out.println(chess);
+    System.out.println(chess.toStringDebug());
+
+
   }
 
 
