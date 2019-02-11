@@ -16,7 +16,7 @@ public class QueenBoard{
     }
   }
 
-  private boolean addQueen(int r, int c){
+  private boolean addQueen(int r, int c){  //adds Queen to given coordinates and also marks all areas covered by the queen
     if (board[r][c]==0){
       board[r][c]=-1;
       for (int i=1;i<board.length;i++){
@@ -35,7 +35,7 @@ public class QueenBoard{
     return false;
   }
 
-  private boolean removeQueen(int r, int c){
+  private boolean removeQueen(int r, int c){  //removes the queen at the given area and eliminates all the areas covered by it
     if (board[r][c]==-1){
       board[r][c]=0;
       for (int i=1;i<board.length;i++){
@@ -61,14 +61,12 @@ public class QueenBoard{
   *There are spaces between each symbol:                    0 represents possible placements for queens
   *"""_ _ Q _
   *Q _ _ _
-
   *_ _ _ Q
-
   *_ Q _ _"""
   *(pythonic string notation for clarity,
   *excludes the character up to the *)
   */
-  public String toString(){
+  public String toString(){ //displaying the board
     String visual = "";
     for (int row=0;row<board.length;row++){
       for (int column=0;column<board[row].length;column++){
@@ -80,20 +78,18 @@ public class QueenBoard{
           visual = visual + "_ ";
         }
 
-
       }
       visual = visual +"\n";
     }
     return visual;
   }
 
-  public String toStringDebug(){
+  public String toStringDebug(){  //displaying the board with
     String visual = "";
     for (int row=0;row<board.length;row++){
       for (int column=0;column<board[row].length;column++){
 
         visual = visual + board[row][column] + "  ";
-
 
       }
       visual = visual +"\n";
@@ -104,11 +100,8 @@ public class QueenBoard{
 
   /**
   *@return false when the board is not solveable and leaves the board filled with zeros;
-
   *        true when the board is solveable, and leaves the board in a solved state
-
   *@throws IllegalStateException when the board starts with any non-zero value
-
   */
   public boolean solve(){
     return helper(0);
@@ -121,7 +114,7 @@ public class QueenBoard{
     return false;
   }
 
-  public boolean helper( int column){
+  public boolean helper(int column){
     if (column>board.length-1)return true;
     else if (solved()==false && column==board.length)return false;
     for (int rows=0;rows<board.length;rows++){
@@ -138,7 +131,25 @@ public class QueenBoard{
   *@return the number of solutions found, and leaves the board filled with only 0's
   *@throws IllegalStateException when the board starts with any non-zero value
   */
-  //public int countSolutions(){}
+  public int countSolutions(){
+    int count=0;
+    for (int i=0;i<board.length;i++){
+      addQueen(i,0);
+      if (helper(1)){
+        count++;
+      }
+      clear();
+    }
+    return count;
+  }
+
+  public void clear(){
+    for (int rows=0;rows<board.length;rows++){
+      for (int columns=0;columns<board.length;columns++){
+        board[rows][columns]=0;
+      }
+    }
+  }
 
 
   public static void main(String[] args){
@@ -155,9 +166,9 @@ public class QueenBoard{
     System.out.println(chess.toStringDebug());
     */
     System.out.println(chess.solve());
-
     System.out.println(chess);
     System.out.println(chess.toStringDebug());
+    System.out.println(chess.countSolutions());
 
 
   }
