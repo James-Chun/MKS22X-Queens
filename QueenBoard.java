@@ -133,26 +133,24 @@ public class QueenBoard{
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public int countSolutions(){
-    int count=0;
-    for (int i=0;i<board.length;i++){
-      addQueen(i,0);
-      if (helper(1)){
-        count++;
-      }
-      clear();
-    }
-    return count;
+    countHelper(0);
+    return counts;
   }
 
-  public void countHelper(int column){
-    if (column>board.length-1)counts++;
+  public boolean countHelper(int column){
+    if (column>board.length-1){
+      counts++;
+      return true;
+    }
     for (int rows=0;rows<board.length;rows++){
-      if (addQueen(rows,column) && helper(column+1)){
+      if (addQueen(rows,column) && countHelper(column+1)){
         counts++;
+        return true;
       }
 
       removeQueen(rows,column);
     }
+    return false;
   }
 
   public void clear(){
