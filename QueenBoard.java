@@ -105,6 +105,9 @@ public class QueenBoard{
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public boolean solve(){
+    if (!checkBoard()){
+      throw new IllegalStateException("Board Is Not In Cleared State");
+    }
     return helper(0);
   }
 
@@ -133,6 +136,9 @@ public class QueenBoard{
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public int countSolutions(){
+    if (!checkBoard()){
+      throw new IllegalStateException("Board Is Not In Cleared State");
+    }
     return countHelper(0,0);
 
   }
@@ -163,7 +169,7 @@ public class QueenBoard{
 
 
   public static void main(String[] args){
-    QueenBoard chess = new QueenBoard(Integer.parseInt(args[0]));
+    //QueenBoard chess = new QueenBoard(Integer.parseInt(args[0]));
     /*
     for (int i=0;i<chess.board.length;i++){
       chess.addQueen(i,0);
@@ -176,9 +182,9 @@ public class QueenBoard{
     System.out.println(chess.toStringDebug());
     */
     //System.out.println(chess.solve());
-    System.out.println(chess);
-    System.out.println(chess.toStringDebug());
-    System.out.println(chess.countSolutions());
+    //System.out.println(chess);
+  //  System.out.println(chess.toStringDebug());
+  //  System.out.println(chess.countSolutions());
 
   }
 
