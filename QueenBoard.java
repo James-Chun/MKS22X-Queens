@@ -4,7 +4,6 @@ import java.util.List;
 
 public class QueenBoard{
   private int[][]board;
-  public int counts = 0;
 
   public QueenBoard(int size){
     board = new int[size][size];
@@ -133,37 +132,27 @@ public class QueenBoard{
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public int countSolutions(){
-    countHelper(0);
-    return counts;
+    return countHelper(0);
+
   }
 
-  public boolean countHelper(int column){
-    if (column>board.length-1){
-      counts++;
-      return true;
+  public int countHelper(int column){
+    int ans =0;
+    if (column>=board.length){
+      return 1;
     }
-    for (int rows=0;rows<board.length;rows++){
-      if (addQueen(rows,column) && countHelper(column+1)){
-        counts++;
-        return true;
+    for (int rows=0; rows<board.length;rows++){
+      if (addQueen(rows,column)){
+        ans += countHelper(column + 1);
       }
-
       removeQueen(rows,column);
     }
-    return false;
-  }
-
-  public void clear(){
-    for (int rows=0;rows<board.length;rows++){
-      for (int columns=0;columns<board.length;columns++){
-        board[rows][columns]=0;
-      }
-    }
+    return ans;
   }
 
 
   public static void main(String[] args){
-    QueenBoard chess = new QueenBoard(Integer.parseInt(args[0]));
+    /*QueenBoard chess = new QueenBoard(Integer.parseInt(args[0]));
     /*
     for (int i=0;i<chess.board.length;i++){
       chess.addQueen(i,0);
@@ -174,11 +163,11 @@ public class QueenBoard{
     System.out.println(chess);
     chess.removeQueen(2,2);
     System.out.println(chess.toStringDebug());
-    */
+    *
     System.out.println(chess.solve());
     System.out.println(chess);
     System.out.println(chess.toStringDebug());
-    System.out.println(chess.countSolutions());
+    System.out.println(chess.countSolutions());*/
 
 
   }
