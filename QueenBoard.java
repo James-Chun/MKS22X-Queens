@@ -4,6 +4,7 @@ import java.util.List;
 
 public class QueenBoard{
   private int[][]board;
+  public int counts = 0;
 
   public QueenBoard(int size){
     board = new int[size][size];
@@ -141,6 +142,17 @@ public class QueenBoard{
       clear();
     }
     return count;
+  }
+
+  public void countHelper(int column){
+    if (column>board.length-1)counts++;
+    for (int rows=0;rows<board.length;rows++){
+      if (addQueen(rows,column) && helper(column+1)){
+        counts++;
+      }
+
+      removeQueen(rows,column);
+    }
   }
 
   public void clear(){
